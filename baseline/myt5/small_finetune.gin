@@ -1,9 +1,9 @@
-include "t5x/examples/t5/byt5/small.gin"
+include "t5x/examples/t5/myt5/small.gin"
 include "t5x/configs/runs/finetune.gin"
 
 BATCH_SIZE = 128
 TASK_FEATURE_LENGTHS = {'inputs': 2048, 'targets': 2048}
-# byT5 takes longer to converge than mT5.
+# myT5 takes longer to converge than mT5.
 TRAIN_STEPS = 1_010_000
 DROPOUT_RATE = 0.1
 # `LOSS_NORMALIZING_FACTOR`: When fine-tuning a model that was pre-trained

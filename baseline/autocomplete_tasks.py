@@ -52,7 +52,7 @@ def dummy_metric(
 
 
 _model_tasks = collections.defaultdict(list)
-for model in ('mt5', 'byt5'):
+for model in ('mt5', 'byt5', 'myt5'):
   for lang in constants.get_languages(task="autocomplete"):
     split_to_filepattern = tasks_lib.get_files_by_split("autocomplete", lang)
     task_name = f"xtreme_up_autocomplete_{lang}_{model}"

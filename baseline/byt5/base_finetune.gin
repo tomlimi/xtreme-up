@@ -1,5 +1,5 @@
-include "third_party/py/t5x/examples/t5/byt5/base.gin"
-include "third_party/py/t5x/configs/runs/finetune.gin"
+include "t5x/examples/t5/byt5/base.gin"
+include "t5x/configs/runs/finetune.gin"
 
 BATCH_SIZE = 128
 TASK_FEATURE_LENGTHS = {'inputs': 2048, 'targets': 2048}

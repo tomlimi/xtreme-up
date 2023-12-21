@@ -32,7 +32,7 @@ from xtreme_up.evaluation import metrics
 
 # Finetuning Tasks:
 _model_tasks = collections.defaultdict(list)
-for model in ('mt5', 'byt5'):
+for model in ('mt5', 'byt5', 'myt5'):
   for lang in constants.TRANSLIT_LANGS_AND_SCRIPTS:
     for script_1, script_2 in constants.TRANSLIT_LANGS_AND_SCRIPTS[lang]:
       # Task for full-string transliteration: Latin -> Native direction for

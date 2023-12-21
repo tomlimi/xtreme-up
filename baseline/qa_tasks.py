@@ -60,7 +60,7 @@ def boolean_qa(targets, predictions):
   return {'boolean_accuracy': accuracy}
 
 
-for model in ('mt5', 'byt5'):
+for model in ('mt5', 'byt5', 'myt5'):
   # In-language QA Finetuning Tasks:
   task_names = []
   for lang in constants.get_languages(task='qa_in_lang'):

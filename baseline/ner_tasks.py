@@ -21,7 +21,7 @@ from xtreme_up.evaluation import constants
 from xtreme_up.evaluation import metrics
 
 
-for model in ['byt5', 'mt5']:
+for model in ['byt5', 'mt5', 'myt5']:
   model_tasks = []
   for language in constants.get_languages(task='ner'):
     split_to_filepattern = tasks_lib.get_files_by_split('ner', language)
