@@ -17,7 +17,8 @@ import os
 from typing import Mapping
 
 import gin
-from multilingual_t5 import vocab as mt5_vocab
+# from multilingual_t5 import vocab as mt5_vocab
+from t5x.myt5.vocabularies import MyteVocabulary
 import t5.data
 
 
@@ -37,18 +38,18 @@ def task_tsv_data_dir(value: str = '') -> str:
   return value
 
 
-DEFAULT_SPM_PATH = mt5_vocab.DEFAULT_SPM_PATH
-DEFAULT_VOCAB = t5.data.SentencePieceVocabulary(DEFAULT_SPM_PATH)
-DEFAULT_OUTPUT_FEATURES = {
-    'inputs': t5.data.Feature(
-        vocabulary=DEFAULT_VOCAB, add_eos=True, required=False
-    ),
-    'targets': t5.data.Feature(vocabulary=DEFAULT_VOCAB, add_eos=True),
-}
+DEFAULT_SPM_PATH = None #mt5_vocab.DEFAULT_SPM_PATH
+DEFAULT_VOCAB = None
+DEFAULT_OUTPUT_FEATURES = None
 
 BYT5_OUTPUT_FEATURES = {
         'inputs': t5.data.Feature(vocabulary=t5.data.ByteVocabulary()),
         'targets': t5.data.Feature(vocabulary=t5.data.ByteVocabulary()),
+    }
+
+MYT5_OUTPUT_FEATURES = {
+        'inputs': t5.data.Feature(vocabulary=MyteVocabulary()),
+        'targets': t5.data.Feature(vocabulary=MyteVocabulary()),
     }
 
 CANONICAL_SPLITS = ['train', 'validation', 'test']
@@ -57,8 +58,11 @@ CANONICAL_SPLITS = ['train', 'validation', 'test']
 def get_output_features(model: str) -> Mapping[str, t5.data.Feature]:
   if model.lower() == 'byt5':
     return BYT5_OUTPUT_FEATURES
+  if model.lower() == 'myt5':
+    return  MYT5_OUTPUT_FEATURES
+    # todo: implement
   if model.lower() in ('mt5', 'nmt5'):
-    return DEFAULT_OUTPUT_FEATURES
+    raise NotImplementedError
   raise ValueError(f'{model} is not supported.')
 
 
