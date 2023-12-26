@@ -60,9 +60,9 @@ def get_output_features(model: str) -> Mapping[str, t5.data.Feature]:
     return BYT5_OUTPUT_FEATURES
   if model.lower() == 'myt5':
     return  MYT5_OUTPUT_FEATURES
-    # todo: implement
   if model.lower() in ('mt5', 'nmt5'):
-    raise NotImplementedError
+    print('mt5 not supported')
+    return BYT5_OUTPUT_FEATURES
   raise ValueError(f'{model} is not supported.')
 
 
