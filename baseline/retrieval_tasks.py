@@ -71,7 +71,7 @@ def lowercase(dataset: tf.data.Dataset,
 
   return dataset.map(_lowercase, num_parallel_calls=tf.data.AUTOTUNE)
 
-for model in ('mt5', 'byt5'):
+for model in ('mt5', 'byt5', 'myt5'):
   # In-language tasks
   tydi_train_tasks = []
   for lang in constants.get_languages(task='retrieval_in_lang'):

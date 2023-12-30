@@ -1,5 +1,5 @@
 include "t5x/configs/runs/eval.gin"
-include "third_party/py/t5x/examples/t5/byt5/base.gin"
+include "t5x/examples/t5/byt5/base.gin"
 
 BATCH_SIZE = 128
 DROPOUT_RATE = 0

@@ -72,3 +72,4 @@ def _add_xtreme_up_semantic_parsing_tasks(model):
 
 _add_xtreme_up_semantic_parsing_tasks('mt5')
 _add_xtreme_up_semantic_parsing_tasks('byt5')
+_add_xtreme_up_semantic_parsing_tasks('myt5')
