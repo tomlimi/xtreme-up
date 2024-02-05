@@ -1,4 +1,4 @@
-include "5x/configs/runs/eval.gin"
+include "t5x/configs/runs/eval.gin"
 include "t5x/examples/t5/myt5/large.gin"
 
 BATCH_SIZE = 128
