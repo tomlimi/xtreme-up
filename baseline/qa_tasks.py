@@ -50,9 +50,9 @@ def boolean_qa(targets, predictions):
   binarized_targets = targets[:]
   binarized_predictions = predictions[:]
   for i in range(len(targets)):
-    if targets[i] != unanswerable:
+    if targets[i].lower() != unanswerable.lower():
       binarized_targets[i] = answerable
-    if predictions[i] != unanswerable:
+    if predictions[i].lower() != unanswerable.lower():
       binarized_predictions[i] = answerable
   accuracy = t5_metrics.accuracy(binarized_targets, binarized_predictions)[
       'accuracy'
