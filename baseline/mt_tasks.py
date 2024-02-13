@@ -23,9 +23,11 @@ from xtreme_up.evaluation import metrics
 
 ALL_SPM_TASK_NAMES = []
 ALL_BYTE_TASK_NAMES = []
+ALL_MYTE_TASK_NAMES = []
 
 ALL_LOW_RESOURCE_SPM_TASK_NAMES = []
 ALL_LOW_RESOURCE_BYTE_TASK_NAMES = []
+ALL_LOW_RESOURCE_MYTE_TASK_NAMES = []
 
 
 for lang in constants.get_languages(task='translation'):
@@ -33,6 +35,7 @@ for lang in constants.get_languages(task='translation'):
   split_to_filepattern = tasks_lib.get_files_by_split('translation', lang_pair)
   task_name = f'xtreme_up_translation_en_{lang}'
   byte_task_name = f'{task_name}_byt5'
+  myte_task_name = f'{task_name}_myt5'
   seqio.TaskRegistry.add(
       task_name,
       source=seqio.TextLineDataSource(split_to_filepattern),
@@ -57,11 +60,27 @@ for lang in constants.get_languages(task='translation'):
       output_features=tasks_lib.get_output_features('byt5'),
       metric_fns=[metrics.bleu_seqio, metrics.chrf_seqio]
   )
+  seqio.TaskRegistry.add(
+        myte_task_name,
+        source=seqio.TextLineDataSource(split_to_filepattern),
+        preprocessors=[
+            t5.data.preprocessors.preprocess_tsv,
+            seqio.preprocessors.tokenize,
+            seqio.CacheDatasetPlaceholder(),
+            seqio.preprocessors.append_eos_after_trim,
+        ],
+        output_features=tasks_lib.get_output_features('myt5'),
+        metric_fns=[metrics.bleu_seqio, metrics.chrf_seqio]
+    )
+
   ALL_SPM_TASK_NAMES.append(task_name)
   ALL_BYTE_TASK_NAMES.append(byte_task_name)
+  ALL_MYTE_TASK_NAMES.append(myte_task_name)
+
   if constants.is_under_represented(lang):
     ALL_LOW_RESOURCE_SPM_TASK_NAMES.append(task_name)
     ALL_LOW_RESOURCE_BYTE_TASK_NAMES.append(byte_task_name)
+    ALL_LOW_RESOURCE_MYTE_TASK_NAMES.append(myte_task_name)
 
 seqio.MixtureRegistry.add(
     'xtreme_up_translation_all_langs_mt5', ALL_SPM_TASK_NAMES, default_rate=1.0)
@@ -78,6 +97,15 @@ seqio.MixtureRegistry.add(
 seqio.MixtureRegistry.add(
     'xtreme_up_translation_byt5',
     ALL_LOW_RESOURCE_BYTE_TASK_NAMES,
+    default_rate=1.0)
+
+seqio.MixtureRegistry.add(
+    'xtreme_up_translation_all_langs_myt5',
+    ALL_MYTE_TASK_NAMES,
+    default_rate=1.0)
+seqio.MixtureRegistry.add(
+    'xtreme_up_translation_myt5',
+    ALL_LOW_RESOURCE_MYTE_TASK_NAMES,
     default_rate=1.0)
 
 # All tasks, to facilitate testing. Note that low-resource tasks are a strict
