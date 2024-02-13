@@ -79,7 +79,7 @@ def sequence_accuracy(targets: list[str], predictions: list[str]) -> float:
 
 def chrf(targets: list[str], predictions: list[str]) -> float:
   """Computes chrF score from https://aclanthology.org/W15-3049/."""
-  return 100 * sacrebleu.corpus_chrf(predictions, targets)
+  return sacrebleu.corpus_chrf(predictions, targets).score
 
 
 def chrf_seqio(targets: list[str], predictions: list[str]) -> dict[str, float]:
