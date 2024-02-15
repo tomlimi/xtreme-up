@@ -55,6 +55,11 @@ def unicode_normalization(text: str) -> str:
   """Applies Unicode normalization."""
   return unicodedata.normalize("NFKC", text)
 
+def normalize_targets_predictions(targets: list[str], predictions: list[str]) -> tuple[list[str], list[str]]:
+    """Normalize targets and predictions for all tasks."""
+    targets = [unicode_normalization(t) for t in targets]
+    predictions = [unicode_normalization(p) for p in predictions]
+    return targets, predictions
 
 def sequence_accuracy(targets: list[str], predictions: list[str]) -> float:
   """Computes per-sequence accuracy.
@@ -79,6 +84,7 @@ def sequence_accuracy(targets: list[str], predictions: list[str]) -> float:
 
 def chrf(targets: list[str], predictions: list[str]) -> float:
   """Computes chrF score from https://aclanthology.org/W15-3049/."""
+  targets, predictions = normalize_targets_predictions(targets, predictions)
   return sacrebleu.corpus_chrf(predictions, targets).score
 
 
@@ -178,10 +184,14 @@ def bleu(
   Returns:
     bleu_score across all targets and predictions
   """
+
   if isinstance(targets[0], list):
-    targets = [list(target) for target in targets]
+    targets = [[unicode_normalization(t) for t in target] for target in targets]
+    targets = [[unicode_normalization(t) for t in target] for target in targets]
+    predictions = [unicode_normalization(p) for p in predictions]
   else:
     # Need to wrap targets in another list for corpus_bleu.
+    targets, predictions = normalize_targets_predictions(targets, predictions)
     targets = [targets]
 
   # `corpus_bleu` returns a `sacrebleu.metrics.BLEUScore`.
@@ -211,6 +221,7 @@ def bleu_seqio(
 
 def f1(targets: list[str], predictions: list[str]) -> float:
   """Computes token level F1 score."""
+  targets, predictions = normalize_targets_predictions(targets, predictions)
   targets = [qa_utils.normalize_squad(t) for t in targets]
   predictions = [qa_utils.normalize_squad(p) for p in predictions]
   return qa_utils.qa_metrics(targets, predictions)["f1"]
@@ -282,6 +293,7 @@ def span_f1_seqio(targets, predictions):
 
 def span_f1(targets: list[str], predictions: list[str]) -> float:
   """Computes span F1 score based on mT5/ByT5 output format."""
+  targets, predictions = normalize_targets_predictions(targets, predictions)
   return 100 * span_f1_seqio(targets, predictions)["span_f1"]
 
 
