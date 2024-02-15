@@ -20,6 +20,7 @@ from t5.evaluation import qa_utils
 
 from xtreme_up.baseline import tasks_lib
 from xtreme_up.evaluation import constants
+from xtreme_up.evaluation import metrics
 
 
 DEFAULT_PREPROCESSORS = [
@@ -38,8 +39,8 @@ def squad(targets, predictions):
   Returns:
     dict with score_key: squad score across all targets and predictions
   """
-  targets = [[qa_utils.normalize_squad(t)] for t in targets]
-  predictions = [qa_utils.normalize_squad(p) for p in predictions]
+  targets = [[qa_utils.normalize_squad(metrics.unicode_normalization(t))] for t in targets]
+  predictions = [qa_utils.normalize_squad(metrics.unicode_normalization(p)) for p in predictions]
   return qa_utils.qa_metrics(targets, predictions)
 
 

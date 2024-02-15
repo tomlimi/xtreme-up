@@ -90,6 +90,7 @@ def chrf(targets: list[str], predictions: list[str]) -> float:
 
 def chrf_seqio(targets: list[str], predictions: list[str]) -> dict[str, float]:
   """A SeqIO compatible wrapper around our internal chrF implementation."""
+  targets, predictions = normalize_targets_predictions(targets, predictions)
   return {"chrf": chrf(targets, predictions)}
 
 
@@ -241,6 +242,8 @@ def span_f1_seqio(targets, predictions):
   Returns:
     span f1 across all targets and predictions (Based on CoNLL script)
   """
+  targets, predictions = normalize_targets_predictions(targets, predictions)
+
   true_positives = collections.defaultdict(int)
   false_positives = collections.defaultdict(int)
   false_negatives = collections.defaultdict(int)
