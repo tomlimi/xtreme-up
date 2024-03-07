@@ -29,6 +29,9 @@ ALL_LOW_RESOURCE_SPM_TASK_NAMES = []
 ALL_LOW_RESOURCE_BYTE_TASK_NAMES = []
 ALL_LOW_RESOURCE_MYTE_TASK_NAMES = []
 
+SELECTED_BYTE_TASK_NAMES = []
+SELECTED_MYTE_TASK_NAMES = []
+
 
 for lang in constants.get_languages(task='translation'):
   lang_pair = f'en2{lang}'
@@ -82,6 +85,10 @@ for lang in constants.get_languages(task='translation'):
     ALL_LOW_RESOURCE_BYTE_TASK_NAMES.append(byte_task_name)
     ALL_LOW_RESOURCE_MYTE_TASK_NAMES.append(myte_task_name)
 
+  if constants.is_selected(lang):
+    SELECTED_BYTE_TASK_NAMES.append(byte_task_name)
+    SELECTED_MYTE_TASK_NAMES.append(myte_task_name)
+
 seqio.MixtureRegistry.add(
     'xtreme_up_translation_all_langs_mt5', ALL_SPM_TASK_NAMES, default_rate=1.0)
 seqio.MixtureRegistry.add(
@@ -98,6 +105,10 @@ seqio.MixtureRegistry.add(
     'xtreme_up_translation_byt5',
     ALL_LOW_RESOURCE_BYTE_TASK_NAMES,
     default_rate=1.0)
+seqio.MixtureRegistry.add(
+    'xtreme_up_translation_selected_byt5',
+    SELECTED_BYTE_TASK_NAMES,
+    default_rate=1.0)
 
 seqio.MixtureRegistry.add(
     'xtreme_up_translation_all_langs_myt5',
@@ -107,7 +118,11 @@ seqio.MixtureRegistry.add(
     'xtreme_up_translation_myt5',
     ALL_LOW_RESOURCE_MYTE_TASK_NAMES,
     default_rate=1.0)
+seqio.MixtureRegistry.add(
+    'xtreme_up_translation_selected_myt5',
+    SELECTED_MYTE_TASK_NAMES,
+    default_rate=1.0)
 
 # All tasks, to facilitate testing. Note that low-resource tasks are a strict
 # subset of these.
-ALL_TASK_NAMES = ALL_SPM_TASK_NAMES + ALL_BYTE_TASK_NAMES
+ALL_TASK_NAMES = ALL_SPM_TASK_NAMES + ALL_BYTE_TASK_NAMES + ALL_MYTE_TASK_NAMES

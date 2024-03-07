@@ -506,6 +506,7 @@ TRANSLIT_LANGS_AND_SCRIPTS = {
     "ur": [("Latn", "Arab")],
 }
 
+SELECTED_LANGS = ['ta', 'te', 'el', 'hy', 'ru', 'kk', 'am', 'vi', 'ja', 'fr', 'sm', 'st', 'ko', 'de', 'mt', 'pl', 'sn', 'en']
 
 def is_under_represented(lang: str) -> bool:
   """Checks if this language code (~2 letter) is under-represented."""
@@ -518,6 +519,17 @@ def is_under_represented(lang: str) -> bool:
     if lang not in XTREME_UP_HIGH_RESOURCE_LANGS:
       raise ValueError(f'Unrecognized language code: {lang}')
     return False
+
+def is_selected(lang: str) -> bool:
+  """Checks if this language code was selected for analysis."""
+  if '_' in lang:
+    # For languages with locales such as 'af_za', remove locale.
+    lang = lang.split('_')[0]
+  if lang in SELECTED_LANGS:
+    return True
+  else:
+    return False
+
 
 
 def get_languages(
