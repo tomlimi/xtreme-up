@@ -506,7 +506,7 @@ TRANSLIT_LANGS_AND_SCRIPTS = {
     "ur": [("Latn", "Arab")],
 }
 
-SELECTED_LANGS = ['ta', 'te', 'el', 'hy', 'ru', 'kk', 'am', 'vi', 'ja', 'fr', 'sm', 'st', 'ko', 'de', 'mt', 'pl', 'sn', 'en']
+SELECTED_LANGS = ['ta', 'te', 'el', 'hy', 'ru', 'kk', 'am', 'vi', 'ja', 'fr',  'st', 'ko', 'de', 'pl', 'sn', 'en']
 
 def is_under_represented(lang: str) -> bool:
   """Checks if this language code (~2 letter) is under-represented."""
